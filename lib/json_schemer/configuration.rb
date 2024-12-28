@@ -27,5 +27,9 @@ module JSONSchemer
     )
       super
     end
+
+    def with(options)
+      self.class.new(**self.to_h.merge(options))
+    end
   end
 end

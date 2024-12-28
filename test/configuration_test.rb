@@ -44,6 +44,16 @@ class ConfigurationTest < Minitest::Test
     )
   end
 
+  def test_with
+    original_value = JSONSchemer.configuration.after_property_validation
+    my_proc = proc { true }
+
+    copy = JSONSchemer.configuration.with(:after_property_validation => [my_proc])
+
+    assert_equal([my_proc], copy.after_property_validation)
+    assert_equal(original_value, JSONSchemer.configuration.after_property_validation)
+  end
+
   def test_string_meta_schema
     run_configuration_test(:meta_schema, test: 'https://json-schema.org/draft/2019-09/schema') do
       assert_equal(JSONSchemer.draft201909, JSONSchemer.schema({ 'maximum' => 1 }).meta_schema)
