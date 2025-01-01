@@ -695,6 +695,20 @@ class JSONSchemerTest < Minitest::Test
     assert_equal(subschemer, subsubschemer.ref('#'))
   end
 
+  def test_schema_ref_keeps_configuration
+    schemer = JSONSchemer.schema(
+      {
+        'properties' => {
+          'x' => {
+            'type' => 'integer'
+          }
+        }
+      },
+      :insert_property_defaults => true
+    )
+    assert_equal(true, schemer.ref('#/properties/x').configuration.insert_property_defaults)
+  end
+
   def test_published_meta_schemas
     [
       JSONSchemer::Draft202012::SCHEMA,
